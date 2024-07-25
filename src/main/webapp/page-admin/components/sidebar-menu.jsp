@@ -20,19 +20,19 @@
     </li>
     <li class="nav-item">
       <a href="${pageContext.request.contextPath}/page-admin/features/websetting/index.jsp" class="sidebar-menu nav-link">
-        <i class="nav-icon fas fa-list"></i>
+        <i class="nav-icon fa-solid fa-gear"></i>
         WebSetting
       </a>
     </li>
     <li class="nav-item">
       <a href="${pageContext.request.contextPath}/page-admin/features/ads/index.jsp" class="sidebar-menu nav-link">
-        <i class="nav-icon fas fa-list"></i>
+        <i class="nav-icon fa-solid fa-rectangle-ad"></i>
         Ads
       </a>
     </li>
     <li class="nav-item">
       <a href="${pageContext.request.contextPath}/page-admin/features/messages/index.jsp" class="sidebar-menu nav-link">
-        <i class="nav-icon fas fa-list"></i>
+        <i class="nav-icon fa-solid fa-message"></i>
         Messages
       </a>
     </li>
