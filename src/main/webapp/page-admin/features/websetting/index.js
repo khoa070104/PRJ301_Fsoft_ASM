@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
 	var $pagination = $('#webSettingPagination');
 	var inpSearchWebSettingType = '';
 	$pagination.twbsPagination(defaultOpts);
@@ -16,18 +15,20 @@ $(document).ready(function() {
 				$('#tblWebSettings').empty();
 				$pagination.twbsPagination('destroy');
 				if (!res.success || res.data.totalRecord === 0) {
-					$('#tblWebSettings').append(`<tr><td colspan='10' style='text-align: center;'>No Data</td></tr>`);
+					$('#tblWebSettings').append(`<tr><td colspan='7' style='text-align: center;'>No Data</td></tr>`);
 					return;
 				}
 				for (const record of res.data.records) {
 					appendHTML += '<tr>';
 					appendHTML += `<td>${record.id}</td>`;
 					appendHTML += `<td>${record.type}</td>`;
-					appendHTML += `<td>${record.status}</td>`;
-					appendHTML += `<td>${record.content}</td>`;
 					appendHTML += `<td>${record.image}</td>`;
-					appendHTML += `<td>${record.createdBy}</td>`;
-					appendHTML += `<td>${record.createdDate}</td>`;
+					appendHTML +=
+						`<td>
+                        <span class='badge ${record.status === 'ACTIVE' ? 'bg-success' : 'bg-danger'}'>
+                            ${record.status}
+                        </span>
+                    </td>`;
 					appendHTML += `<td>${record.updatedBy}</td>`;
 					appendHTML += `<td>${record.updatedDate}</td>`;
 					appendHTML += `<td class='text-right'>
@@ -75,8 +76,9 @@ $(document).ready(function() {
 				if (res.success) {
 					$('#inpWebSettingId').val(id);
 					$('#inpWebSettingType').val(res.data.type);
-					$('#inpWebSettingContent').val(res.data.content);
+					$('#inpWebSettingContent').summernote('code', res.data.content);
 					$('#inpWebSettingImage').val(null);
+					$('#inpWebSettingStatus').val(res.data.status);
 				} else {
 					toastr.error(res.errMsg);
 				}
@@ -141,6 +143,7 @@ $(document).ready(function() {
 				$('#inpWebSettingContent').val(null);
 				$('#inpWebSettingImage').val(null);
 				$('#inpWebSettingStatus').val('ACTIVE');
+				$('#inpWebSettingContent').summernote('reset');
 			} else {
 				this.getWebSettingById(id);
 			}
@@ -151,6 +154,13 @@ $(document).ready(function() {
 		if (e.target.files.length) {
 			$(this).next('.custom-file-label').html(e.target.files[0].name);
 		}
+	});
+
+	$('#inpWebSettingContent').summernote({
+		height: 300,
+		minHeight: null,
+		maxHeight: null,
+		focus: true
 	});
 
 	this.switchViewWebSetting(true);

@@ -23,22 +23,26 @@ $(document).ready(function() {
 					appendHTML += '<tr>';
 					appendHTML += `<td>${record.id}</td>`;
 					appendHTML += `<td>${record.position}</td>`;
-					appendHTML += `<td>${record.status}</td>`;
 					appendHTML += `<td>${record.width}</td>`;
 					appendHTML += `<td>${record.height}</td>`;
-					appendHTML += `<td>${record.uri}</td>`;
-					appendHTML += `<td>${record.createdBy}</td>`;
-					appendHTML += `<td>${record.createdDate}</td>`;
+					appendHTML +=
+						`<td>
+						<span class='badge ${record.status === 'ACTIVE' ? 'bg-success' : 'bg-danger'}'>
+							${record.status}
+						</span>
+					</td>`;
+					appendHTML += `<td>${record.url}</td>`;
+					appendHTML += `<td>${record.images}</td>`;
 					appendHTML += `<td>${record.updatedBy}</td>`;
 					appendHTML += `<td>${record.updatedDate}</td>`;
 					appendHTML += `<td class='text-right'>
-            <a class='btn btn-info btn-sm' onclick='switchViewAds(false, ${record.id})'>
-              <i class='fas fa-pencil-alt'></i>
-            </a>
-            <a class='btn btn-danger btn-sm' onclick='deleteAds(${record.id})'>
-              <i class='fas fa-trash'></i>
-            </a>
-          </td>`;
+                        <a class='btn btn-info btn-sm' onclick='switchViewAds(false, ${record.id})'>
+                            <i class='fas fa-pencil-alt'></i>
+                        </a>
+                        <a class='btn btn-danger btn-sm' onclick='deleteAds(${record.id})'>
+                            <i class='fas fa-trash'></i>
+                        </a>
+                    </td>`;
 					appendHTML += '</tr>';
 				}
 				$pagination.twbsPagination($.extend({}, defaultOpts, {
@@ -78,7 +82,8 @@ $(document).ready(function() {
 					$('#inpAdsPosition').val(res.data.position);
 					$('#inpAdsWidth').val(res.data.width);
 					$('#inpAdsHeight').val(res.data.height);
-					$('#inpAdsURI').val(res.data.uri);
+					$('#inpAdsURI').val(res.data.url);
+					$('#currentAdsImages').val(res.data.images);
 					$('#inpAdsImages').val(null);
 				} else {
 					toastr.error(res.errMsg);
@@ -89,26 +94,38 @@ $(document).ready(function() {
 			})
 	}
 
+
 	this.saveAds = function() {
 		const currentId = $('#inpAdsId').val();
 		const payload = {
 			'position': $('#inpAdsPosition').val(),
 			'width': $('#inpAdsWidth').val(),
 			'height': $('#inpAdsHeight').val(),
-			'uri': $('#inpAdsURI').val()
-		}
+			'url': $('#inpAdsURI').val(),
+			'images': $('#currentAdsImages').val() ? $('#currentAdsImages').val().split(",") : []
+		};
 		var formData = new FormData();
 		var files = $('#inpAdsImages')[0].files;
-		for (var i = 0; i < files.length; i++) {
-			formData.append('images', files[i]);
+
+		if (files.length > 0) {
+			for (var i = 0; i < files.length; i++) {
+				formData.append('images', files[i]);
+			}
+		} else {
+			const currentImages = $('#currentAdsImages').val() ? $('#currentAdsImages').val().split(",") : [];
+			for (let image of currentImages) {
+				formData.append('images', image);
+			}
 		}
+
 		formData.append('payload', JSON.stringify(payload));
+
 		if (currentId) {
 			Http.putFormData(`${domain}/admin/api/ads?id=${currentId}`, formData)
 				.then(res => {
 					if (res.success) {
 						this.switchViewAds(true);
-						toastr.success(`Update ads success !`)
+						toastr.success(`Update ads success !`);
 					} else {
 						toastr.error(res.errMsg);
 					}
@@ -121,7 +138,7 @@ $(document).ready(function() {
 				.then(res => {
 					if (res.success) {
 						this.switchViewAds(true);
-						toastr.success(`Create ads success !`)
+						toastr.success(`Create ads success !`);
 					} else {
 						toastr.error(res.errMsg);
 					}
@@ -132,55 +149,6 @@ $(document).ready(function() {
 		}
 	};
 
-	this.onSearchByPosition = function() {
-		inpSearchAdsPosition = $('#inpSearchAdsPosition').val();
-		this.getAds(0, defaultPageSize, inpSearchAdsPosition);
-	}
-
-	this.getAds = function(page = 0, size = defaultPageSize, position = '') {
-		Http.get(`${domain}/admin/api/ads?type=filter&page=${page}&size=${size}&position=${position}`)
-			.then(res => {
-				let appendHTML = '';
-				$('#tblAds').empty();
-				$pagination.twbsPagination('destroy');
-				if (!res.success || res.data.totalRecord === 0) {
-					$('#tblAds').append(`<tr><td colspan='10' style='text-align: center;'>No Data</td></tr>`);
-					return;
-				}
-				for (const record of res.data.records) {
-					appendHTML += '<tr>';
-					appendHTML += `<td>${record.id}</td>`;
-					appendHTML += `<td>${record.position}</td>`;
-					appendHTML += `<td>${record.images}</td>`;
-					appendHTML += `<td>${record.uri}</td>`;
-					appendHTML += `<td>${record.createdBy}</td>`;
-					appendHTML += `<td>${record.createdDate}</td>`;
-					appendHTML += `<td>${record.updatedBy}</td>`;
-					appendHTML += `<td>${record.updatedDate}</td>`;
-					appendHTML += `<td class='text-right'>
-            <a class='btn btn-info btn-sm' onclick='switchViewAds(false, ${record.id})'>
-              <i class='fas fa-pencil-alt'></i>
-            </a>
-            <a class='btn btn-danger btn-sm' onclick='deleteAds(${record.id})'>
-              <i class='fas fa-trash'></i>
-            </a>
-          </td>`;
-					appendHTML += '</tr>';
-				}
-				$pagination.twbsPagination($.extend({}, defaultOpts, {
-					startPage: res.data.page + 1,
-					totalPages: Math.ceil(res.data.totalRecord / res.data.size)
-				}));
-				$pagination.on('page', (event, num) => {
-					this.getAds(num - 1, defaultPageSize, inpSearchAdsPosition);
-				});
-				$('#tblAds').append(appendHTML);
-			})
-			.catch(err => {
-				toastr.error(err.errMsg);
-			})
-	}
-
 	this.switchViewAds = function(isViewTable, id = null) {
 		if (isViewTable) {
 			$('#ads-table').css('display', 'block');
@@ -190,6 +158,7 @@ $(document).ready(function() {
 			$('#ads-table').css('display', 'none');
 			$('#ads-form').css('display', 'block');
 			if (id == null) {
+				$('#inpAdsId').val(null);
 				$('#inpAdsPosition').val(null);
 				$('#inpAdsWidth').val(null);
 				$('#inpAdsHeight').val(null);

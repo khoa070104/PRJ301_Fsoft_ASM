@@ -1,11 +1,12 @@
 package com.se4f7.prj301.model.request;
 
 public class AdsModelRequest {
-    private String[] images;  // Change to array
+    private String[] images;
     private String position;
     private String width;
     private String height;
-    private String uri;
+    private String url;
+    private String status;
 
     public String[] getImages() {
         return images;
@@ -14,8 +15,6 @@ public class AdsModelRequest {
     public void setImages(String[] images) {
         this.images = images;
     }
-
-
 
     public String getPosition() {
         return position;
@@ -41,21 +40,19 @@ public class AdsModelRequest {
         this.height = height;
     }
 
-    @Override
-    public String toString() {
-        return "AdsModelRequest{" +
-                "position='" + position + '\'' +
-                ", width='" + width + '\'' +
-                ", height='" + height + '\'' +
-                ", uri='" + uri + '\'' +
-                '}';
+    public String getUrl() {
+        return url;
     }
 
-    public String getUri() {
-        return uri;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public String getStatus() {  // Getter và Setter cho status
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `ads` (
 	`width` INT,
 	`height` INT,
 	`position` VARCHAR(255),
-	`uri` VARCHAR(255),
+	`url` VARCHAR(255),
 	PRIMARY KEY(`id`)
 );
 CREATE TABLE IF NOT EXISTS `messages` (

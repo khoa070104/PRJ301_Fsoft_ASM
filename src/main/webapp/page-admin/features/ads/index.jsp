@@ -29,10 +29,11 @@
                     <tr>
                         <th>Id</th>
                         <th>Position</th>
+                        <th>Width</th>
+                        <th>Height</th>
+                        <th>Status</th>
+                        <th>URL</th>
                         <th>Images</th>
-                        <th>URI</th>
-                        <th>Create By</th>
-                        <th>Create Date</th>
                         <th>Updated By</th>
                         <th>Updated Date</th>
                         <th style="width: 95px;">Actions</th>
@@ -73,7 +74,7 @@
                     <input class="form-control" placeholder="Height" id="inpAdsHeight">
                 </div>
                 <div class="form-group">
-                    <label for="name">URI</label>
+                    <label for="name">URL</label>
                     <input class="form-control" placeholder="URI" id="inpAdsURI">
                 </div>
                 <div class="form-group">
@@ -81,6 +82,9 @@
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="inpAdsImages" multiple>
                         <label class="custom-file-label" for="inpAdsImages">Choose files</label>
+                    </div>
+                    <div class="form-group" style="display: none">
+                        <input type="text" id="currentAdsImages" />
                     </div>
                 </div>
             </div>

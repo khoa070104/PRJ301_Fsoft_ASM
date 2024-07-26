@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdsRepository {
-    private static final String INSERT_SQL = "INSERT INTO ads (position, width, height, uri, images, createdBy, updatedBy) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_SQL = "UPDATE ads SET position = ?, width = ?, height = ?, uri = ?, images = ?, updatedBy = ? WHERE id = ?";
+    private static final String INSERT_SQL = "INSERT INTO ads (position, width, height, url, images, createdBy, updatedBy) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_SQL = "UPDATE ads SET position = ?, width = ?, height = ?, url = ?, images = ?, updatedBy = ? WHERE id = ?";
     private static final String GET_BY_ID_SQL = "SELECT * FROM ads WHERE id = ?";
     private static final String GET_BY_POSITION_SQL = "SELECT * FROM ads WHERE position = ?";
     private static final String DELETE_BY_ID_SQL = "DELETE FROM ads WHERE id = ?";
@@ -27,7 +27,7 @@ public class AdsRepository {
             preparedStatement.setString(1, request.getPosition());
             preparedStatement.setString(2, request.getWidth());
             preparedStatement.setString(3, request.getHeight());
-            preparedStatement.setString(4, request.getUri());
+            preparedStatement.setString(4, request.getUrl());
             preparedStatement.setString(5, String.join(",", request.getImages())); // Join array to a single string
             preparedStatement.setString(6, username);
             preparedStatement.setString(7, username);
@@ -44,8 +44,11 @@ public class AdsRepository {
             preparedStatement.setString(1, request.getPosition());
             preparedStatement.setString(2, request.getWidth());
             preparedStatement.setString(3, request.getHeight());
-            preparedStatement.setString(4, request.getUri());
-            preparedStatement.setString(5, String.join(",", request.getImages())); // Join array to a single string
+            preparedStatement.setString(4, request.getUrl());
+            if(request.getImages() == null) {
+                request.setImages(getById(id).getImages());
+            } else
+                preparedStatement.setString(5, String.join(",", request.getImages()));
             preparedStatement.setString(6, username);
             preparedStatement.setLong(7, id);
             preparedStatement.executeUpdate();
@@ -70,12 +73,13 @@ public class AdsRepository {
                 response.setPosition(rs.getString("position"));
                 response.setWidth(rs.getString("width"));
                 response.setHeight(rs.getString("height"));
-                response.setUri(rs.getString("uri"));
+                response.setUrl(rs.getString("url"));
                 response.setImages(rs.getString("images").split(","));
                 response.setCreatedBy(rs.getString("createdBy"));
                 response.setUpdatedBy(rs.getString("updatedBy"));
                 response.setCreatedDate(rs.getString("createdDate"));
                 response.setUpdatedDate(rs.getString("updatedDate"));
+                response.setStatus(rs.getString("status"));
             }
             return response;
         } catch (Exception e) {
@@ -97,7 +101,7 @@ public class AdsRepository {
                 response.setPosition(rs.getString("position"));
                 response.setWidth(rs.getString("width"));
                 response.setHeight(rs.getString("height"));
-                response.setUri(rs.getString("uri"));
+                response.setUrl(rs.getString("url"));
                 response.setImages(rs.getString("images").split(","));
                 response.setCreatedBy(rs.getString("createdBy"));
                 response.setUpdatedBy(rs.getString("updatedBy"));
@@ -136,12 +140,13 @@ public class AdsRepository {
                 response.setPosition(rs.getString("position"));
                 response.setWidth(rs.getString("width"));
                 response.setHeight(rs.getString("height"));
-                response.setUri(rs.getString("uri"));
+                response.setUrl(rs.getString("url"));
                 response.setImages(rs.getString("images").split(","));
                 response.setCreatedBy(rs.getString("createdBy"));
                 response.setUpdatedBy(rs.getString("updatedBy"));
                 response.setCreatedDate(rs.getString("createdDate"));
                 response.setUpdatedDate(rs.getString("updatedDate"));
+                response.setStatus(rs.getString("status"));
                 results.add(response);
             }
             stmtCount.setString(1, position != null ? "%" + position + "%" : "%%");

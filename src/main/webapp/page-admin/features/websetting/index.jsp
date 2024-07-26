@@ -29,11 +29,8 @@
                     <tr>
                         <th>Id</th>
                         <th>Type</th>
+                        <th>Image URL</th>
                         <th>Status</th>
-                        <th>Content</th>
-                        <th>Image</th>
-                        <th>Create By</th>
-                        <th>Create Date</th>
                         <th>Updated By</th>
                         <th>Updated Date</th>
                         <th style="width: 95px;">Actions</th>
@@ -67,10 +64,9 @@
                 </div>
                 <div class="form-group">
                     <label for="name">Content</label>
-                    <input class="form-control" placeholder="Content" id="inpWebSettingContent">
-
+                    <textarea class="form-control" placeholder="Content" id="inpWebSettingContent"></textarea>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="display: none">
                     <label for="name">Status</label>
                     <select class="form-control" id="inpWebSettingStatus">
                         <option value="ACTIVE">ACTIVE</option>

@@ -23,5 +23,7 @@
   <script src="${pageContext.request.contextPath}/page-admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="${pageContext.request.contextPath}/page-admin/assets/global.settings.js"></script>
   <script src="https://kit.fontawesome.com/3be38c7278.js" crossorigin="anonymous"></script>
-  
+
+
+
 </head>

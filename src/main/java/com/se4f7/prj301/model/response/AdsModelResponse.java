@@ -6,10 +6,20 @@ public class AdsModelResponse extends BaseModel {
     private String position;
     private String width;
     private String height;
-    private String uri;
+    private String url;
     private String[] images;
+    private  String status;
+
 
     // Getters and Setters
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getPosition() {
         return position;
     }
@@ -42,11 +52,11 @@ public class AdsModelResponse extends BaseModel {
         this.height = height;
     }
 
-    public String getUri() {
-        return uri;
+    public String getUrl() {
+        return url;
     }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
