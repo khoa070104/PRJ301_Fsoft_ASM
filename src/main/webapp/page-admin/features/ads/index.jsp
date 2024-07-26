@@ -75,7 +75,7 @@
                 </div>
                 <div class="form-group">
                     <label for="name">URL</label>
-                    <input class="form-control" placeholder="URI" id="inpAdsURI">
+                    <input class="form-control" placeholder="URL" id="inpAdsURI">
                 </div>
                 <div class="form-group">
                     <label for="name">Images</label>
