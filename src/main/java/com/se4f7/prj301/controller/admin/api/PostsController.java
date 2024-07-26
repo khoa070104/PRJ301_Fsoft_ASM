@@ -35,13 +35,9 @@ public class PostsController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			// Get JSON payload from request.
-			// Parse JSON stringify from request to Java Class.
 			PostsModelRequest requestBody = HttpUtil.ofFormData(req.getPart("payload"))
 					.toModel(PostsModelRequest.class);
-			// Get username from header request.
 			String username = req.getAttribute("username").toString();
-			// Call service create a new Posts.
 			boolean result = postsService.create(requestBody, req.getPart("banner"), username);
 			ResponseUtil.success(resp, result);
 		} catch (Exception e) {

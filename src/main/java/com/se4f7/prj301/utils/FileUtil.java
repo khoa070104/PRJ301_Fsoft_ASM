@@ -21,14 +21,8 @@ public class FileUtil {
 		return folderUpload;
 	}
 
-	public static String[] getCurrentFiles() {
-		// Lấy danh sách các file hiện tại từ thư mục lưu trữ
-		File folderUpload = getFolderUpload();
-		String[] currentFiles = folderUpload.list();
-		return currentFiles != null ? currentFiles : new String[0];
-	}
+
 	public static String[] saveFiles(Collection<Part> files) {
-		removeFiles(getCurrentFiles());
 		List<String> fileNames = new ArrayList<>();
 		for (Part file : files) {
 			if (file.getSubmittedFileName() != null) {

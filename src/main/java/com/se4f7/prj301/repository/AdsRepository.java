@@ -45,10 +45,7 @@ public class AdsRepository {
             preparedStatement.setString(2, request.getWidth());
             preparedStatement.setString(3, request.getHeight());
             preparedStatement.setString(4, request.getUrl());
-            if(request.getImages() == null) {
-                request.setImages(getById(id).getImages());
-            } else
-                preparedStatement.setString(5, String.join(",", request.getImages()));
+            preparedStatement.setString(5, String.join(",", request.getImages()));
             preparedStatement.setString(6, username);
             preparedStatement.setLong(7, id);
             preparedStatement.executeUpdate();
@@ -57,6 +54,8 @@ public class AdsRepository {
             throw new RuntimeException(ErrorMessage.SQL_ERROR + e.getMessage());
         }
     }
+
+
 
 
     public AdsModelResponse getById(Long id) {
@@ -74,9 +73,7 @@ public class AdsRepository {
                 response.setWidth(rs.getString("width"));
                 response.setHeight(rs.getString("height"));
                 response.setUrl(rs.getString("url"));
-                response.setImages(rs.getString("images").split(","));
-                response.setCreatedBy(rs.getString("createdBy"));
-                response.setUpdatedBy(rs.getString("updatedBy"));
+                response.setImages(rs.getString(2).split(","));
                 response.setCreatedDate(rs.getString("createdDate"));
                 response.setUpdatedDate(rs.getString("updatedDate"));
                 response.setStatus(rs.getString("status"));

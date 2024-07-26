@@ -15,6 +15,7 @@ import com.se4f7.prj301.constants.QueryType;
 import com.se4f7.prj301.model.PaginationModel;
 import com.se4f7.prj301.model.request.AdsModelRequest;
 import com.se4f7.prj301.model.response.AdsModelResponse;
+import com.se4f7.prj301.repository.AdsRepository;
 import com.se4f7.prj301.service.AdsService;
 import com.se4f7.prj301.service.impl.AdsServiceImpl;
 import com.se4f7.prj301.utils.HttpUtil;
@@ -49,12 +50,15 @@ public class AdsController extends HttpServlet {
         try {
             AdsModelRequest requestBody = HttpUtil.ofFormData(req.getPart("payload")).toModel(AdsModelRequest.class);
             String username = req.getAttribute("username").toString();
+            AdsRepository adsRepository = new AdsRepository();
+
             boolean result = adsService.update(req.getParameter("id"), requestBody, req.getParts(), username);
             ResponseUtil.success(resp, result);
         } catch (Exception e) {
             ResponseUtil.error(resp, e.getMessage());
         }
     }
+
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

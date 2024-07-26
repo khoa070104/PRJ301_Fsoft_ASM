@@ -6,21 +6,16 @@ public class WebSettingResponse {
     private Long id;
     private String content;
     private String type;
+    private String image;
+    private String createdDate;
+    private String updatedDate;
+    private String createdBy;
+    private String updatedBy;
+    private StatusEnum status;
 
     public WebSettingResponse() {
     }
 
-    public WebSettingResponse(Long id, String content, String type, String image, String createdDate, String updatedDate, String createdBy, String updatedBy, StatusEnum status) {
-        this.id = id;
-        this.content = content;
-        this.type = type;
-        this.image = image;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
-        this.createdBy = createdBy;
-        this.updatedBy = updatedBy;
-        this.status = status;
-    }
 
     public Long getId() {
         return id;
@@ -94,12 +89,4 @@ public class WebSettingResponse {
         this.status = status;
     }
 
-    private String image;
-    private String createdDate;
-    private String updatedDate;
-    private String createdBy;
-    private String updatedBy;
-    private StatusEnum status;
-
-    // Getters and Setters
 }

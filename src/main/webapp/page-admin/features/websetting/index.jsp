@@ -76,7 +76,7 @@
                 <div class="form-group">
                     <label for="name">Image</label>
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="inpWebSettingImage" multiple>
+                        <input type="file" class="custom-file-input" id="inpWebSettingImage">
                         <label class="custom-file-label" for="inpWebSettingImage">Choose files</label>
                     </div>
                 </div>
