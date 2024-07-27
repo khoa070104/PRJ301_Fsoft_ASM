@@ -144,7 +144,7 @@ $(document).ready(function() {
 			if (id == null) {
 				$('#inpWebSettingId').val('');
 				$('#inpWebSettingType').val('');
-				$('#inpWebSettingContent').val('');
+				$('#inpWebSettingContent').summernote('code', '');
 				$('#inpWebSettingImage').val(null);
 				$('#inpWebSettingImage').next('.custom-file-label').html('Choose files');
 				$('#inpWebSettingStatus').val('ACTIVE');
