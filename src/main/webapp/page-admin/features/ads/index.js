@@ -101,7 +101,8 @@ $(document).ready(function() {
 			'position': $('#inpAdsPosition').val(),
 			'width': $('#inpAdsWidth').val(),
 			'height': $('#inpAdsHeight').val(),
-			'url': $('#inpAdsURI').val()
+			'url': $('#inpAdsURI').val(),
+			'images': $('#currentAdsImages').val() ? $('#currentAdsImages').val().split(",") : []
 		};
 		var formData = new FormData();
 		var files = $('#inpAdsImages')[0].files;
@@ -109,6 +110,11 @@ $(document).ready(function() {
 		if (files.length > 0) {
 			for (var i = 0; i < files.length; i++) {
 				formData.append('images', files[i]);
+			}
+		} else {
+			const currentImages = $('#currentAdsImages').val() ? $('#currentAdsImages').val().split(",") : [];
+			for (let image of currentImages) {
+				formData.append('images', new File([], image));
 			}
 		}
 

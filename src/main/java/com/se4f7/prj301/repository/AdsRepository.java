@@ -28,7 +28,7 @@ public class AdsRepository {
             preparedStatement.setString(2, request.getWidth());
             preparedStatement.setString(3, request.getHeight());
             preparedStatement.setString(4, request.getUrl());
-            preparedStatement.setString(5, String.join(",", request.getImages())); // Join array to a single string
+            preparedStatement.setString(5, String.join(",", request.getImages()));
             preparedStatement.setString(6, username);
             preparedStatement.setString(7, username);
             preparedStatement.executeUpdate();

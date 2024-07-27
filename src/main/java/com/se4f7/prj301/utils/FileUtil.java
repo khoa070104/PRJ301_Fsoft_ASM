@@ -24,6 +24,32 @@ public class FileUtil {
 
 	public static String[] saveFiles(Collection<Part> files) {
 		List<String> fileNames = new ArrayList<>();
+		try{
+			for (Part file : files) {
+				if (file.getSubmittedFileName() != null) {
+					String originFileName = file.getSubmittedFileName();
+					String extension = FilenameUtils.getExtension(originFileName);
+					String outputFileName = UUID.randomUUID().toString() + "." + extension;
+					String outputFile = getFolderUpload().getAbsolutePath() + File.separator + outputFileName;
+					file.write(outputFile);
+					fileNames.add(outputFileName);
+				}
+			}
+			return fileNames.toArray(new String[0]);
+		} catch (IOException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+
+	}
+
+	public static String[] saveFiles(Collection<Part> files, String[] existingFiles) {
+		if (files != null && !files.isEmpty()) {
+			removeFiles(existingFiles);
+		} else {
+			return existingFiles;
+		}
+
+		List<String> fileNames = new ArrayList<>();
 		for (Part file : files) {
 			if (file.getSubmittedFileName() != null) {
 				String fileName = saveFile(file);

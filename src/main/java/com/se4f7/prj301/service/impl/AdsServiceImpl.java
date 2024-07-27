@@ -41,14 +41,14 @@ public class AdsServiceImpl implements AdsService {
                 throw new RuntimeException(ErrorMessage.POSITION_EXISTS);
             }
         }
-        System.out.println("images: " + oldAds.getImages().toString());
         String[] imageNames;
         if (images != null && !images.isEmpty()) {
-            FileUtil.removeFiles(oldAds.getImages());
             imageNames = FileUtil.saveFiles(images);
+            FileUtil.removeFiles(oldAds.getImages());
         } else {
             imageNames = oldAds.getImages();
         }
+        //String[] imageNames = FileUtil.saveFiles(images, oldAds.getImages()); // new
         request.setImages(imageNames);
         return adsRepository.update(idNumber, request, username);
     }
